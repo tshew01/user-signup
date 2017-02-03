@@ -79,22 +79,22 @@ class Welcome(webapp2.RequestHandler):
         if self.username_valid(username):
             user_error = ''
         else:
-            user_error = "That's not a valid username"
+            user_error = "That's not a valid username."
 
         if self.password_verify(password):
             pw_error = ''
         else:
-            pw_error = "That's not a valid password"
+            pw_error = "That's not a valid password."
 
         if self.password_match(password, verify):
             valid_error = ''
         else:
-            valid_error = "Your passwords didn't match"
+            valid_error = "Your passwords didn't match."
 
         if self.email_valid(email):
             email_error = ''
         else:
-            email_error = "That's not a valid email"
+            email_error = "That's not a valid email."
 
 
         if user_error == pw_error == valid_error == email_error:
