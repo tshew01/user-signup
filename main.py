@@ -19,7 +19,7 @@ import webapp2
 import cgi
 import re
 
-def build(user_error,pw_error,valid_error,email_error):
+def build(username,email,user_error,pw_error,valid_error,email_error):
 
 
     page_header = """
@@ -47,13 +47,14 @@ def build(user_error,pw_error,valid_error,email_error):
         </body>
         </html>
         """
-
-    username = "<label>Username</label><input type='text' name='username'>"
+# <input name="username" type="text" value="%(username)s" required
+# <span class="error">%(username_error)s</span>
+    username = "<label>Username</label><input type='text' name='username' value='" + username + "'>"
     password = "<label>Password</label><input type='password' name='password'>"
     verify = "<label>Verify Password</label><input type='password' name='verify'>"
-    email = "<label>Email(optional)</label><input type='text' name='email'>"
+    email = "<label>Email(optional)</label><input type='text' name='email' value='" + email + "'>"
     submit = "<input type ='Submit' value='submit'>"
-    form = (page_header + "<form action='/verify' method='post'>" +
+    form = (page_header + "<form action='/welcome' method='post'>" +
         username + "<span>"+ user_error + "</span>" + "<br>"+
         password + "<span>"+ pw_error + "</span>" + "<br>"+
         verify + "<span>"+ valid_error + "</span>"+ "<br>"+
@@ -64,7 +65,7 @@ def build(user_error,pw_error,valid_error,email_error):
 class MainHandler(webapp2.RequestHandler):
 
     def get(self):
-        content = build("","","","")
+        content = build("","","","","","")
         self.response.write(content)
 
 
@@ -100,7 +101,7 @@ class Welcome(webapp2.RequestHandler):
         if user_error == pw_error == valid_error == email_error:
             self.response.write("<h1>Welcome, {} </h1>".format(username))
         else:
-            more_errors = build(user_error,pw_error,valid_error,email_error)
+            more_errors = build(username,email,user_error,pw_error,valid_error,email_error)
             self.response.write(more_errors)
 
         #verify password
@@ -133,5 +134,5 @@ class Welcome(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/verify', Welcome)
+    ('/welcome', Welcome)
 ], debug=True)
